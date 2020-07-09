@@ -2,20 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace WebDemo.Controllers
 {
-
+    //需要验证JWT
+    [Authorize]
     [Route("api/[controller]")]
-    public class WeatherForecastController : ControllerBase
+    public class HomeController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
+        //不需要验证JWT
+        [HttpGet("Index")]
+        public IActionResult Index()
         {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-        [HttpGet]
+            string a = "";
+            return Ok(a);
+        }        
+        [HttpGet("Get")]
         public IEnumerable<WeatherForecast> Get()
         {
             var rng = new Random();
@@ -23,7 +27,7 @@ namespace WebDemo.Controllers
             {
                 Date = DateTime.Now.AddDays(index),
                 TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
+                Summary ="111"
             })
             .ToArray();
         }
